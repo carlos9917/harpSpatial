@@ -19,7 +19,7 @@ spatial_scores <- function(score = NULL, obfield = NULL, fcfield = NULL, ...) {
                                       "func" = "scores_sp_neighborhood", "plot_func" = "plot_fss"),
                      "NACT"    = list(fields = c("hit", "fa", "miss", "cr"), primary = c("threshold", "scale"),
                                       "func" = "scores_sp_neighborhood", "plot_func" = "plot_nact"),
-                     "SLX"     = list(fields = c("S_OB_MAX", "S_OB_MIN", "S_FC_MAX", "S_FC_MIN", "SLX_COMB"), primary = c("scale"), "func" = "slx"),
+                     "SLX"     = list(fields = c("S_OB_MAX", "S_OB_MIN", "S_FC_MAX", "S_FC_MIN", "SLX_COMB"), primary = c("scale"), "func" = "slx")
 #                     , "FSS_p"     = list(fields = c("percentile", "scale", "fss"), "func" = "score_fss", "plot_func" = "plot_fss")
                      )
 
