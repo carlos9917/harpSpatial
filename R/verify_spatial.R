@@ -284,7 +284,6 @@ verify_spatial <- function(dttm,
   case <- 1
   for (ob in seq_along(all_ob_dates)) {  # (obdate in all_ob_dates) looses POSIXct class
     obdate <- all_ob_dates[ob]
-    browser()
     message("=====\nobdate: ", format(obdate, "%Y%m%d-%H%M"))
     obfield <- get_ob(obdate)
     if (inherits(obfield, "try-error")) { # e.g. missing observation

@@ -82,9 +82,10 @@ SLX_components <- function(analysis, forecast, L, delta = 0.0) {
   s_fc_min <- avg_score(fc_min_pts, analysis, forecast, 'fc_min')
 
   list(
-    S = s_ob_max,
-    L = s_ob_min,
-    X = s_fc_max,
+    s_ob_max = s_ob_max,
+    s_ob_min = s_ob_min,
+    s_fc_max = s_fc_max,
+    s_fc_min = s_fc_min,
     combined = mean(c(s_ob_max, s_ob_min, s_fc_max, s_fc_min), na.rm = TRUE)
   )
 }
@@ -112,15 +113,16 @@ slx <- function(obfield, fcfield, scales, ...) {
   fc_dims <- dim(fcfield)
   fc_values <- as.numeric(fcfield)
   fc_matrix <- matrix(fc_values, nrow = fc_dims[1], ncol = fc_dims[2])
-  browser()
   # Calculate scores for each scale
   results <- lapply(scales, function(l) {
     res <- SLX_components(obs_matrix, fc_matrix, L = l)
     tibble::tibble(
       scale = l,
-      S = res$s_ob_max,
-      L = res$s_ob_min,
-      X = res$s_fc_max
+      S_OB_MAX = res$s_ob_max,
+      S_OB_MIN = res$s_ob_min,
+      S_FC_MAX = res$s_fx_max,
+      S_FC_MIN = res$s_fc_min,
+      SLX = res$combined
     )
   })
 
