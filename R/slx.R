@@ -75,7 +75,7 @@ SLX_components <- function(analysis, forecast, L, delta = 0.0) {
     })
     mean(scores, na.rm = TRUE)
   }
-
+  browser()
   s_ob_max <- avg_score(ob_max_pts, analysis, forecast, 'ob_max')
   s_ob_min <- avg_score(ob_min_pts, analysis, forecast, 'ob_min')
   s_fc_max <- avg_score(fc_max_pts, analysis, forecast, 'fc_max')
