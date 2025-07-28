@@ -114,13 +114,14 @@ slx <- function(obfield, fcfield, scales, ...) {
   fc_values <- as.numeric(fcfield)
   fc_matrix <- matrix(fc_values, nrow = fc_dims[1], ncol = fc_dims[2])
   # Calculate scores for each scale
+  browser()
   results <- lapply(scales, function(l) {
     res <- SLX_components(obs_matrix, fc_matrix, L = l)
     tibble::tibble(
       scale = l,
       S_OB_MAX = res$s_ob_max,
       S_OB_MIN = res$s_ob_min,
-      S_FC_MAX = res$s_fx_max,
+      S_FC_MAX = res$s_fc_max,
       S_FC_MIN = res$s_fc_min,
       SLX_COMB = res$combined
     )
