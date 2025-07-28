@@ -122,7 +122,7 @@ slx <- function(obfield, fcfield, scales, ...) {
       S_OB_MIN = res$s_ob_min,
       S_FC_MAX = res$s_fx_max,
       S_FC_MIN = res$s_fc_min,
-      SLX = res$combined
+      SLX_COMB = res$combined
     )
   })
 
