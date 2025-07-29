@@ -220,6 +220,7 @@ verify_spatial <- function(dttm,
         det_model = fcst_model,
         file_path = fc_file_path,
         file_template = fc_file_template)
+       browser()
       try(
         do.call(harpIO::read_grid,
             c(list(file_name = fcfile, file_format = fc_file_format,
