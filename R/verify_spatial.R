@@ -196,7 +196,6 @@ verify_spatial <- function(dttm,
       file_template = ob_file_template,
       parameter     = ob_param
     )
-    browser()
     # FIXME: first check that the file exists! Avoid Errors. Use 
     try(do.call(harpIO::read_grid,
                   c(list(file_name        = obfile,
@@ -204,7 +203,7 @@ verify_spatial <- function(dttm,
 			 parameter        = ob_param,
 			 file_format_opts = ob_file_opts,
 			 param_defs       = ob_param_defs))),
-        silent = FALSE) 
+        silent = TRUE) 
   }
 
   # FIXME: if (!is.null(members) && length(members) > 1)
@@ -285,7 +284,6 @@ verify_spatial <- function(dttm,
   case <- 1
   for (ob in seq_along(all_ob_dates)) {  # (obdate in all_ob_dates) looses POSIXct class
     obdate <- all_ob_dates[ob]
-    browser()
     message("=====\nobdate: ", format(obdate, "%Y%m%d-%H%M"))
     obfield <- get_ob(obdate)
     if (inherits(obfield, "try-error")) { # e.g. missing observation
@@ -365,7 +363,7 @@ verify_spatial <- function(dttm,
         "   +++ fcdate = ", format(fcdate,"%Y%m%d-%H%M"),
         " +++ ldt = ", ldt / lt_scale, lt_unit
       )
-
+      browser()
       fcfield <- get_fc(fcdate, ldt/lt_scale)
       if (inherits(fcfield, "try-error")) { # e.g. missing forecast run
         message("..... Forecast not found. Skipping.", immediate = TRUE)
