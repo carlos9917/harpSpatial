@@ -48,10 +48,15 @@ neighbourhood_view <- function(field, i, j, L, mode = 'max') {
 }
 
 SLX_components <- function(analysis, forecast, L, delta = 0.0) {
+  browser()
   ob_max_pts <- local_extreme_indices(analysis, 'max', delta)
+  browser()
   ob_min_pts <- local_extreme_indices(analysis, 'min', delta)
+  browser()
   fc_max_pts <- local_extreme_indices(forecast, 'max', delta)
+  browser()
   fc_min_pts <- local_extreme_indices(forecast, 'min', delta)
+  browser()
   avg_score <- function(pts, ob_field, fc_field, mode) {
     if (nrow(pts) == 0) return(NA)
     scores <- sapply(1:nrow(pts), function(idx) {
