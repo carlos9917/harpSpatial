@@ -48,6 +48,7 @@ neighbourhood_view <- function(field, i, j, L, mode = 'max') {
 }
 
 SLX_components <- function(analysis, forecast, L, delta = 0.0) {
+  message("Doing SLX components for L : ", L)
   ob_max_pts <- local_extreme_indices(analysis, 'max', delta)
   ob_min_pts <- local_extreme_indices(analysis, 'min', delta)
   fc_max_pts <- local_extreme_indices(forecast, 'max', delta)
