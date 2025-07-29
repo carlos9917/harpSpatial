@@ -120,7 +120,7 @@ verify_spatial <- function(dttm,
                            sqlite_file          = harpSpatial_conf$sqlite_file, #"harp_spatial_scores.sqlite",
                            return_data          = FALSE) {
 
-  source(here::here("R", "agreement_scores.R"))
+  #source(here::here("R", "agreement_scores.R"))
   # TODO: we may need more options! masked interpolation, options by score,
   prm <- harpIO::parse_harp_parameter(parameter)
 
