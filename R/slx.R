@@ -116,7 +116,6 @@ slx <- function(obfield, fcfield, scales, ...) {
   # Calculate scores for each scale
   results <- lapply(scales, function(l) {
     res <- SLX_components(obs_matrix, fc_matrix, L = l)
-    browser()
     tibble::tibble(
       scale = l,
       S_OB_MAX = res$s_ob_max,

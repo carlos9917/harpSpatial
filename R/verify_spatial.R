@@ -120,6 +120,7 @@ verify_spatial <- function(dttm,
                            sqlite_file          = harpSpatial_conf$sqlite_file, #"harp_spatial_scores.sqlite",
                            return_data          = FALSE) {
 
+  source(here::here("R", "agreement_scores.R"))
   # TODO: we may need more options! masked interpolation, options by score,
   prm <- harpIO::parse_harp_parameter(parameter)
 
@@ -183,8 +184,7 @@ verify_spatial <- function(dttm,
   # - maybe even a different field -> need a "modifier"???
   # if (!is.null(ob_param$accum)
   ob_param <- prm
-  ob_param$accum <- readr::parse_number(ob_accumulation) *
-                    harpIO:::units_multiplier(ob_accumulation)
+  ob_param$accum <- readr::parse_number(ob_accumulation) * harpIO:::units_multiplier(ob_accumulation)
   # FIXME: avoid reading domain information for every file (obs and fc)
   #        BUT: we need it once to initialise the regridding. Use "get_domain(file)".
   # FIXME: should we do the regridding within the read_grid call?
@@ -304,7 +304,8 @@ verify_spatial <- function(dttm,
         }
         obfield <- obfield - zstep
       } else {
-        ostep <- readr::parse_number(ob_accumulation) * harpIO:::units_multiplier(ob_accumulation)
+        ostep <- readr::parse_number(ob_accumulation) *
+                    harpIO:::units_multiplier(ob_accumulation)
         if (ostep == prm$accum) { # this is easy !
           # nothing to do
         } else if  (ostep > prm$accum) { # this is easy !
