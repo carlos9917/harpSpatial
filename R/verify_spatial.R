@@ -419,7 +419,6 @@ verify_spatial <- function(dttm,
               fc_domain <- fcfield
             }
           }
-	  browser()
           init$regrid_fc <-
             meteogrid::regrid.init(
               olddomain = fc_domain,

@@ -113,6 +113,7 @@ slx <- function(obfield, fcfield, scales, ...) {
   fc_dims <- dim(fcfield)
   fc_values <- as.numeric(fcfield)
   fc_matrix <- matrix(fc_values, nrow = fc_dims[1], ncol = fc_dims[2])
+  browser()
   # Calculate scores for each scale
   results <- lapply(scales, function(l) {
     res <- SLX_components(obs_matrix, fc_matrix, L = l)
