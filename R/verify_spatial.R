@@ -220,7 +220,6 @@ verify_spatial <- function(dttm,
         det_model = fcst_model,
         file_path = fc_file_path,
         file_template = fc_file_template)
-       browser()
       try(
         do.call(harpIO::read_grid,
             c(list(file_name = fcfile, file_format = fc_file_format,
@@ -364,7 +363,6 @@ verify_spatial <- function(dttm,
         "   +++ fcdate = ", format(fcdate,"%Y%m%d-%H%M"),
         " +++ ldt = ", ldt / lt_scale, lt_unit
       )
-      browser()
       fcfield <- get_fc(fcdate, ldt/lt_scale)
       if (inherits(fcfield, "try-error")) { # e.g. missing forecast run
         message("..... Forecast not found. Skipping.", immediate = TRUE)
@@ -421,6 +419,7 @@ verify_spatial <- function(dttm,
               fc_domain <- fcfield
             }
           }
+	  browser()
           init$regrid_fc <-
             meteogrid::regrid.init(
               olddomain = fc_domain,
