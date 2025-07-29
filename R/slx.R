@@ -52,7 +52,6 @@ SLX_components <- function(analysis, forecast, L, delta = 0.0) {
   ob_min_pts <- local_extreme_indices(analysis, 'min', delta)
   fc_max_pts <- local_extreme_indices(forecast, 'max', delta)
   fc_min_pts <- local_extreme_indices(forecast, 'min', delta)
-  browser()
   avg_score <- function(pts, ob_field, fc_field, mode) {
     if (nrow(pts) == 0) return(NA)
     scores <- sapply(1:nrow(pts), function(idx) {
@@ -77,9 +76,13 @@ SLX_components <- function(analysis, forecast, L, delta = 0.0) {
   }
   browser()
   s_ob_max <- avg_score(ob_max_pts, analysis, forecast, 'ob_max')
+  browser()
   s_ob_min <- avg_score(ob_min_pts, analysis, forecast, 'ob_min')
+  browser()
   s_fc_max <- avg_score(fc_max_pts, analysis, forecast, 'fc_max')
+  browser()
   s_fc_min <- avg_score(fc_min_pts, analysis, forecast, 'fc_min')
+  browser()
 
   list(
     s_ob_max = s_ob_max,
