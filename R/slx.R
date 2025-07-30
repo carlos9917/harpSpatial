@@ -21,8 +21,8 @@ local_extreme_indices <- function(field, mode = "max", tolerance = 0.0) {
       if (is.na(val)) next
       neighborhood <- field[(i - 1):(i + 1), (j - 1):(j + 1)]
       neighbors <- as.vector(neighborhood)[-5]
-      message(neighbors," ",i," ",j)
-      browser()
+      if (any(is.na(neighbors))) next #should not happen, but happens for DMI. TODO: add buffer zone
+      #message(neighbors," ",i," ",j)
 
       if (mode == "max") {
         if (all(val >= neighbors - tolerance) && any(val > neighbors + tolerance)) {
