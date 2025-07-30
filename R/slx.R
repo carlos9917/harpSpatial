@@ -15,7 +15,6 @@ local_extreme_indices <- function(field, mode = "max", tolerance = 0.0) {
   ncol_f <- ncol(field)
   extrema <- matrix(numeric(0), 0, 3, dimnames = list(NULL, c("row", "col", "value")))
 
-  browser()
   for (i in 2:(nrow_f - 1)) {
     for (j in 2:(ncol_f - 1)) {
       val <- field[i, j]
@@ -28,7 +27,7 @@ local_extreme_indices <- function(field, mode = "max", tolerance = 0.0) {
           extrema <- rbind(extrema, c(i, j, val))
         }
       } else if (mode == "min") {
-      browser()
+      message(neighbors," ",i," ",j)
         if (all(val <= neighbors + tolerance) && any(val < neighbors - tolerance)) {
           extrema <- rbind(extrema, c(i, j, val))
         }
