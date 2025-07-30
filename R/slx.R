@@ -20,8 +20,9 @@ local_extreme_indices <- function(field, mode = "max", tolerance = 0.0) {
       val <- field[i, j]
       if (is.na(val)) next
       neighborhood <- field[(i - 1):(i + 1), (j - 1):(j + 1)]
-      message(neighbors," ",i," ",j)
       neighbors <- as.vector(neighborhood)[-5]
+      message(neighbors," ",i," ",j)
+      browser()
 
       if (mode == "max") {
         if (all(val >= neighbors - tolerance) && any(val > neighbors + tolerance)) {
