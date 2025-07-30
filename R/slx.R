@@ -21,7 +21,6 @@ local_extreme_indices <- function(field, mode = "max", tolerance = 0.0) {
       val <- field[i, j]
       if (is.na(val)) next
       neighborhood <- field[(i - 1):(i + 1), (j - 1):(j + 1)]
-      browser()
       neighbors <- as.vector(neighborhood)[-5]
 
       if (mode == "max") {
@@ -29,6 +28,7 @@ local_extreme_indices <- function(field, mode = "max", tolerance = 0.0) {
           extrema <- rbind(extrema, c(i, j, val))
         }
       } else if (mode == "min") {
+      browser()
         if (all(val <= neighbors + tolerance) && any(val < neighbors - tolerance)) {
           extrema <- rbind(extrema, c(i, j, val))
         }
