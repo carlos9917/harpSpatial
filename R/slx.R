@@ -118,7 +118,9 @@ slx <- function(obfield, fcfield, scales, ...) {
   # Did this to deal with the DMI model obs domain...
   #obs_matrix[is.na(obs_matrix)] <- 0
   #fc_matrix[is.na(fc_matrix)] <- 0
-
+  # Replace "NAN" strings with NA
+   obs_matrix[obs_matrix == "NA"] <- NA
+   fc_matrix[fc_matrix == "NA"] <- NA
   # Calculate scores for each scale
   results <- lapply(scales, function(l) {
     res <- SLX_components(obs_matrix, fc_matrix, L = l)
