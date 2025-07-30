@@ -15,11 +15,13 @@ local_extreme_indices <- function(field, mode = "max", tolerance = 0.0) {
   ncol_f <- ncol(field)
   extrema <- matrix(numeric(0), 0, 3, dimnames = list(NULL, c("row", "col", "value")))
 
+  browser()
   for (i in 2:(nrow_f - 1)) {
     for (j in 2:(ncol_f - 1)) {
       val <- field[i, j]
       if (is.na(val)) next
       neighborhood <- field[(i - 1):(i + 1), (j - 1):(j + 1)]
+      browser()
       neighbors <- as.vector(neighborhood)[-5]
 
       if (mode == "max") {
@@ -33,7 +35,6 @@ local_extreme_indices <- function(field, mode = "max", tolerance = 0.0) {
       }
     }
   }
-  browser()
   colnames(extrema) <- c("row", "col", "value")
   return(extrema)
 }
