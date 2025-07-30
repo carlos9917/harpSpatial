@@ -33,6 +33,7 @@ local_extreme_indices <- function(field, mode = "max", tolerance = 0.0) {
       }
     }
   }
+  browser()
   colnames(extrema) <- c("row", "col", "value")
   return(extrema)
 }
@@ -112,9 +113,10 @@ slx <- function(obfield, fcfield, scales, ...) {
   fc_dims <- dim(fcfield)
   fc_values <- as.numeric(fcfield)
   fc_matrix <- matrix(fc_values, nrow = fc_dims[1], ncol = fc_dims[2])
-  #Handle NA values
-  obs_matrix[is.na(obs_matrix)] <- 0
-  fc_matrix[is.na(fc_matrix)] <- 0
+  #Handle NA values. Maybe not a good idea
+  # Did this to deal with the DMI model obs domain...
+  #obs_matrix[is.na(obs_matrix)] <- 0
+  #fc_matrix[is.na(fc_matrix)] <- 0
 
   # Calculate scores for each scale
   results <- lapply(scales, function(l) {
