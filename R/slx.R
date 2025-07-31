@@ -21,7 +21,14 @@ local_extreme_indices <- function(field, mode = "max", tolerance = 0.0) {
       if (is.na(val)) next
       neighborhood <- field[(i - 1):(i + 1), (j - 1):(j + 1)]
       neighbors <- as.vector(neighborhood)[-5]
-      if (any(is.na(neighbors))) next #should not happen, but happens for DMI. TODO: add buffer zone
+
+      #if (any(is.na(neighbors))) next #should not happen, but happens for DMI. TODO: add buffer zone
+      #in case any is a NaN:
+      # Unwind elements and check for NaN
+      elements <- as.vector(neighborhood)
+      # Skip if any element is NaN
+      if (any(is.na(elements))) next
+
       #message(neighbors," ",i," ",j)
 
       if (mode == "max") {
