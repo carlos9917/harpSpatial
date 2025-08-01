@@ -91,6 +91,7 @@ similarity_D <- function(a, b) {
 #' @param verbose If TRUE, print progress messages.
 #' @return A matrix containing the agreement scale at each grid point.
 agreement_scale_map <- function(f1, f2, alpha = 0.5, S_lim = 80L, verbose = TRUE) {
+
   ny <- nrow(f1)
   nx <- ncol(f1)
   SA <- matrix(S_lim, ny, nx)
@@ -150,7 +151,7 @@ agreement_scale_map <- function(f1, f2, alpha = 0.5, S_lim = 80L, verbose = TRUE
 #' @export
 fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, verbose = TRUE) {
 
-
+  browser()
   obs_dims <- dim(obfield)
   obs_values <- as.numeric(obfield)
   obs_matrix <- matrix(obs_values, nrow = obs_dims[1], ncol = obs_dims[2])
@@ -160,6 +161,7 @@ fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, verb
   fc_matrix <- matrix(fc_values, nrow = fc_dims[1], ncol = fc_dims[2])
 
 
+  browser()
   if (!is.matrix(fc_matrix) || !is.matrix(obs_matrix)) {
     stop("fc_field and obs_field must be matrices.")
   }
