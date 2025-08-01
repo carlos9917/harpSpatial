@@ -173,11 +173,18 @@ fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, verb
     verbose = verbose
   )
 
+  summary_stats <- list(
+    mean_agreescale = mean(SA_fo, na.rm = TRUE),
+    min_agreescale  = min(SA_fo, na.rm = TRUE),
+    max_agreescale  = max(SA_fo, na.rm = TRUE),
+    sd_agreescale   = sd(SA_fo, na.rm = TRUE)
+  )
+
   tibble::tibble(
     SA_fo               = list(SA_fo),
-    mean_agreescale     = mean(SA_fo, na.rm = TRUE),
-    min_agreescale      = min(SA_fo, na.rm = TRUE),
-    max_agreescale      = max(SA_fo, na.rm = TRUE),
-    sd_agreescale       = sd(SA_fo, na.rm = TRUE)
+    mean_agreescale     = summary_stats$mean_agreescale,
+    min_agreescale      = summary_stats$min_agreescale,
+    max_agreescale      = summary_stats$max_agreescale,
+    sd_agreescale       = summary_stats$sd_agreescale
   )
 }
