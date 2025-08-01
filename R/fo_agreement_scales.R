@@ -179,7 +179,7 @@ fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, verb
     max_agreescale  = max(SA_fo, na.rm = TRUE),
     sd_agreescale   = sd(SA_fo, na.rm = TRUE)
   )
-
+  browser()
   tibble::tibble(
     agreement_scale_map = list(SA_fo),
     mean_agreescale     = summary_stats$mean_agreescale,
