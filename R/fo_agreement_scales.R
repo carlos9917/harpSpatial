@@ -148,9 +148,19 @@ agreement_scale_map <- function(f1, f2, alpha = 0.5, S_lim = 80L, verbose = TRUE
 #'   \item{summary_stats}{A list of summary statistics (mean, min, max, sd)
 #'     for the agreement scale map.}
 #' @export
-fo_agreement_scales <- function(fc_field, obs_field, alpha = 0.5, S_lim = 80L, verbose = TRUE) {
+fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, verbose = TRUE) {
 
-  if (!is.matrix(fc_field) || !is.matrix(obs_field)) {
+
+  obs_dims <- dim(obfield)
+  obs_values <- as.numeric(obfield)
+  obs_matrix <- matrix(obs_values, nrow = obs_dims[1], ncol = obs_dims[2])
+
+  fc_dims <- dim(fcfield)
+  fc_values <- as.numeric(fcfield)
+  fc_matrix <- matrix(fc_values, nrow = fc_dims[1], ncol = fc_dims[2])
+
+
+  if (!is.matrix(fc_matrix) || !is.matrix(obs_matrix)) {
     stop("fc_field and obs_field must be matrices.")
   }
   if (!all(dim(fc_field) == dim(obs_field))) {
@@ -158,8 +168,8 @@ fo_agreement_scales <- function(fc_field, obs_field, alpha = 0.5, S_lim = 80L, v
   }
 
   SA_fo <- agreement_scale_map(
-    fc_field,
-    obs_field,
+    fc_matrix,
+    obs_matrix,
     alpha = alpha,
     S_lim = S_lim,
     verbose = verbose
