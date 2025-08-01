@@ -150,7 +150,7 @@ agreement_scale_map <- function(f1, f2, alpha = 0.5, S_lim = 80L, verbose = TRUE
 #'   \item{summary_stats}{A list of summary statistics (mean, min, max, sd)
 #'     for the agreement scale map.}
 #' @export
-fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, ...) {
+fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, verbose=TRUE, ...) {
   
   browser()
   obs_dims <- dim(obfield)
