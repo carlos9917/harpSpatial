@@ -148,7 +148,7 @@ agreement_scale_map <- function(f1, f2, alpha = 0.5, S_lim = 80L, verbose = TRUE
 #'   \item{summary_stats}{A list of summary statistics (mean, min, max, sd)
 #'     for the agreement scale map.}
 #' @export
-fo_agreement <- function(fc_field, obs_field, alpha = 0.5, S_lim = 80L, verbose = TRUE) {
+fo_agreement_scales <- function(fc_field, obs_field, alpha = 0.5, S_lim = 80L, verbose = TRUE) {
 
   if (!is.matrix(fc_field) || !is.matrix(obs_field)) {
     stop("fc_field and obs_field must be matrices.")

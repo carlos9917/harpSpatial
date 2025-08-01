@@ -209,7 +209,7 @@
 #'   \item{summary_stats_mm}{A list of summary statistics for SA_mm.}
 #'   \item{summary_stats_mo}{A list of summary statistics for SA_mo.}
 #' @export
-ens_agreement <- function(ensemble_fields, observation_field, alpha = 0.5, S_lim = 80L, verbose = TRUE) {
+ens_agreement_scales <- function(ensemble_fields, observation_field, alpha = 0.5, S_lim = 80L, verbose = TRUE) {
 
   # --- Input validation ---
   if (!is.list(ensemble_fields) || length(ensemble_fields) < 2) {
