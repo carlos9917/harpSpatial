@@ -145,14 +145,11 @@ agreement_scale_map <- function(f1, f2, alpha = 0.5, S_lim = 80L, verbose = TRUE
 #' @param S_lim An integer for the maximum neighbourhood half-width. Default is 80.
 #' @param verbose A boolean to control progress messages. Default is TRUE.
 #'
-#' @return A list with two elements:
-#'   \item{agreement_scale_map}{A matrix containing the SA_fo values.}
-#'   \item{summary_stats}{A list of summary statistics (mean, min, max, sd)
-#'     for the agreement scale map.}
+#' @return A tibble with the agreement scale map (SA_fo) and its summary statistics.
+#'   The tibble has one row, with the SA_fo matrix in a list-column.
 #' @export
 fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, verbose=TRUE, ...) {
-  
-  browser()
+
   obs_dims <- dim(obfield)
   obs_values <- as.numeric(obfield)
   obs_matrix <- matrix(obs_values, nrow = obs_dims[1], ncol = obs_dims[2])
@@ -161,12 +158,10 @@ fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, verb
   fc_values <- as.numeric(fcfield)
   fc_matrix <- matrix(fc_values, nrow = fc_dims[1], ncol = fc_dims[2])
 
-
-  browser()
   if (!is.matrix(fc_matrix) || !is.matrix(obs_matrix)) {
     stop("fc_field and obs_field must be matrices.")
   }
-  if (!all(dim(fc_field) == dim(obs_field))) {
+  if (!all(dim(fcfield) == dim(obfield))) {
     stop("fc_field and obs_field must have the same dimensions.")
   }
 
@@ -185,8 +180,11 @@ fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, verb
     sd_agreescale   = sd(SA_fo, na.rm = TRUE)
   )
 
-  list(
-    agreement_scale_map = SA_fo,
-    summary_stats       = summary_stats
+  tibble::tibble(
+    agreement_scale_map = list(SA_fo),
+    mean_agreescale     = summary_stats$mean_agreescale,
+    min_agreescale      = summary_stats$min_agreescale,
+    max_agreescale      = summary_stats$max_agreescale,
+    sd_agreescale       = summary_stats$sd_agreescale
   )
 }
