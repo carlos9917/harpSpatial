@@ -24,7 +24,8 @@ window_mean_cumsum2d <- function(mat, k) {
   mat_clean[na_mask] <- 0
 
   # Calculate cumulative sum using harpSpatial::cumsum_2d
-  cumsum_mat <- harpSpatial::cumsum_2d(mat_clean)
+  #cumsum_mat <- harpSpatial::cumsum_2d(mat_clean)
+  cumsum_mat <- cumsum_2d(mat_clean)
 
   result <- matrix(NA, ny, nx)
 
@@ -149,8 +150,8 @@ agreement_scale_map <- function(f1, f2, alpha = 0.5, S_lim = 80L, verbose = TRUE
 #'   \item{summary_stats}{A list of summary statistics (mean, min, max, sd)
 #'     for the agreement scale map.}
 #' @export
-fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, verbose = TRUE) {
-
+fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, ...) {
+  
   browser()
   obs_dims <- dim(obfield)
   obs_values <- as.numeric(obfield)
