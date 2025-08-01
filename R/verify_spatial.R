@@ -81,6 +81,7 @@
 #'   this directory.
 #' @param sqlite_file Name of SQLite file.
 #' @param return_data If TRUE, the result is returned as a list of tables.
+#' @param return_fields If TRUE, the observation and forecast fields are returned (only for one case)
 #' @param ... Not used at thispoint (more info to be added).
 #'
 #' @return A list containting tibbles for all scores.
@@ -364,6 +365,7 @@ verify_spatial <- function(dttm,
                            fc_file_opts         = harpSpatial_conf$fc_file_opts, #list(),
                            fc_domain            = harpSpatial_conf$fc_domain, #NULL,
                            fc_interp_method     = harpSpatial_conf$fc_interp_method, #"closest",
+                           fc_accumulation      = harpSpatial_conf$fc_accumulation, #NULL,
 			   fc_param_defs	= getExportedValue("harpIO", "harp_params"),
                            ob_file_path         = harpSpatial_conf$ob_file_path, #"",
                            ob_file_template     = harpSpatial_conf$ob_file_template, #"",
@@ -379,8 +381,10 @@ verify_spatial <- function(dttm,
                            thresholds           = harpSpatial_conf$thresholds, #c(0.1, 1, 5, 10),
                            sqlite_path          = harpSpatial_conf$sqlite_path, #NULL,
                            sqlite_file          = harpSpatial_conf$sqlite_file, #"harp_spatial_scores.sqlite",
-                           return_data          = FALSE) {
+                           return_data          = FALSE,
+			   return_fields        = FALSE ) {
 
+  #source(here::here("R", "agreement_scores.R"))
   # TODO: we may need more options! masked interpolation, options by score,
   prm <- harpIO::parse_harp_parameter(parameter)
 
@@ -544,8 +548,7 @@ verify_spatial <- function(dttm,
   case <- 1
   for (ob in seq_along(all_ob_dates)) {  # (obdate in all_ob_dates) looses POSIXct class
     obdate <- all_ob_dates[ob]
-    message("=====
-obdate: ", format(obdate, "%Y%m%d-%H%M"))
+    message("=====\nobdate: ", format(obdate, "%Y%m%d-%H%M"))
     obfield <- get_ob(obdate)
     if (inherits(obfield, "try-error")) { # e.g. missing observation
       message("Observation not found. Skipping.\n")
@@ -680,7 +683,7 @@ obdate: ", format(obdate, "%Y%m%d-%H%M"))
               fc_domain <- fcfield
             }
           }
-          init$regrid_fc =
+          init$regrid_fc <-
             meteogrid::regrid.init(
               olddomain = fc_domain,
               newdomain = verif_domain,
@@ -750,6 +753,13 @@ obdate: ", format(obdate, "%Y%m%d-%H%M"))
   ## write to SQLite
   if (!is.null(sqlite_file)) {
     save_spatial_verif(score_tables, sqlite_path, sqlite_file)
+  }
+
+  ## Return fields for plotting (as Polly did), so I can have a look at the fields used
+  ## Note it only works for the one case such that it does not return a huge field!
+   if (return_fields & ncases == 1){
+	  score_tables <- append(score_tables, list("obfield"= obfield))
+	  score_tables <- append(score_tables, list("fcfield"= fcfield))
   }
 
   if (return_data) invisible(score_tables)

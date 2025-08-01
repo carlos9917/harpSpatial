@@ -22,6 +22,15 @@ local_extreme_indices <- function(field, mode = "max", tolerance = 0.0) {
       neighborhood <- field[(i - 1):(i + 1), (j - 1):(j + 1)]
       neighbors <- as.vector(neighborhood)[-5]
 
+      #if (any(is.na(neighbors))) next #should not happen, but happens for DMI. TODO: add buffer zone
+      #in case any is a NaN:
+      # Unwind elements and check for NaN
+      elements <- as.vector(neighborhood)
+      # Skip if any element is NaN
+      if (any(is.na(elements))) next
+
+      #message(neighbors," ",i," ",j)
+
       if (mode == "max") {
         if (all(val >= neighbors - tolerance) && any(val > neighbors + tolerance)) {
           extrema <- rbind(extrema, c(i, j, val))
@@ -48,15 +57,11 @@ neighbourhood_view <- function(field, i, j, L, mode = 'max') {
 }
 
 SLX_components <- function(analysis, forecast, L, delta = 0.0) {
-  browser()
+  message("Doing SLX components for L : ", L)
   ob_max_pts <- local_extreme_indices(analysis, 'max', delta)
-  browser()
   ob_min_pts <- local_extreme_indices(analysis, 'min', delta)
-  browser()
   fc_max_pts <- local_extreme_indices(forecast, 'max', delta)
-  browser()
   fc_min_pts <- local_extreme_indices(forecast, 'min', delta)
-  browser()
   avg_score <- function(pts, ob_field, fc_field, mode) {
     if (nrow(pts) == 0) return(NA)
     scores <- sapply(1:nrow(pts), function(idx) {
@@ -79,7 +84,6 @@ SLX_components <- function(analysis, forecast, L, delta = 0.0) {
     })
     mean(scores, na.rm = TRUE)
   }
-  browser()
   s_ob_max <- avg_score(ob_max_pts, analysis, forecast, 'ob_max')
   s_ob_min <- avg_score(ob_min_pts, analysis, forecast, 'ob_min')
   s_fc_max <- avg_score(fc_max_pts, analysis, forecast, 'fc_max')
@@ -117,6 +121,13 @@ slx <- function(obfield, fcfield, scales, ...) {
   fc_dims <- dim(fcfield)
   fc_values <- as.numeric(fcfield)
   fc_matrix <- matrix(fc_values, nrow = fc_dims[1], ncol = fc_dims[2])
+  #Handle NA values. Maybe not a good idea
+  # Did this to deal with the DMI model obs domain...
+  #obs_matrix[is.na(obs_matrix)] <- 0
+  #fc_matrix[is.na(fc_matrix)] <- 0
+  # Replace "NAN" strings with NA
+   obs_matrix[obs_matrix == "NA"] <- NA
+   fc_matrix[fc_matrix == "NA"] <- NA
   # Calculate scores for each scale
   results <- lapply(scales, function(l) {
     res <- SLX_components(obs_matrix, fc_matrix, L = l)
