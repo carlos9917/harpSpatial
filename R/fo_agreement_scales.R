@@ -145,7 +145,8 @@ agreement_scale_map <- function(f1, f2, alpha = 0.5, S_lim = 80L, verbose = TRUE
 #' @param S_lim An integer for the maximum neighbourhood half-width. Default is 80.
 #' @param verbose A boolean to control progress messages. Default is TRUE.
 #'
-#' @return A list containing the agreement scale map (SA_fo) and its summary statistics.
+#' @return A tibble with the agreement scale map (SA_fo) and its summary statistics.
+#'   The tibble has one row, with the SA_fo matrix in a list-column.
 #' @export
 fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, verbose=TRUE, ...) {
 
@@ -172,12 +173,11 @@ fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, verb
     verbose = verbose
   )
 
-  summary_stats <- list(
-    SA_fo           = SA_fo,
-    mean_agreescale = mean(SA_fo, na.rm = TRUE),
-    min_agreescale  = min(SA_fo, na.rm = TRUE),
-    max_agreescale  = max(SA_fo, na.rm = TRUE),
-    sd_agreescale   = sd(SA_fo, na.rm = TRUE)
+  tibble::tibble(
+    SA_fo               = list(SA_fo),
+    mean_agreescale     = mean(SA_fo, na.rm = TRUE),
+    min_agreescale      = min(SA_fo, na.rm = TRUE),
+    max_agreescale      = max(SA_fo, na.rm = TRUE),
+    sd_agreescale       = sd(SA_fo, na.rm = TRUE)
   )
-  summary_stats
 }
