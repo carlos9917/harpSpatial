@@ -453,6 +453,7 @@ verify_spatial <- function(dttm,
                          thresholds = thresholds,
                          scales = window_sizes)
         message("--> Calling ", sf)
+	browser()
         multiscore <- do.call(sf, myargs)
 
         if (!is.null(multiscore)) {
