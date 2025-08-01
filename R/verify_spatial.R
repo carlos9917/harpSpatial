@@ -453,7 +453,6 @@ verify_spatial <- function(dttm,
                          thresholds = thresholds,
                          scales = window_sizes)
         message("--> Calling ", sf)
-	browser()
         multiscore <- do.call(sf, myargs)
 
         if (!is.null(multiscore)) {
@@ -461,6 +460,7 @@ verify_spatial <- function(dttm,
           message("output dim : ", paste(dim(multiscore), collapse="x"))
           nrow <- dim(multiscore)[1]
           # interval of rows for this case in full score table
+	  browser()
           intv <- seq_len(nrow) + (case - 1) * nrow
           for (sn in score_function_subset[[sf]]) {
             message("-----> Calling score ", sn)
