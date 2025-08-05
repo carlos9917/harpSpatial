@@ -174,6 +174,7 @@ fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, verb
   )
 
   summary_stats <- list(
+    SA_fo           = SA_fo,
     mean_agreescale = mean(SA_fo, na.rm = TRUE),
     min_agreescale  = min(SA_fo, na.rm = TRUE),
     max_agreescale  = max(SA_fo, na.rm = TRUE),
