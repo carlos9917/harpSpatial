@@ -148,7 +148,7 @@ agreement_scale_map <- function(f1, f2, alpha = 0.5, S_lim = 80L, verbose = TRUE
 #' @return A tibble with the agreement scale map (SA_fo) and its summary statistics.
 #'   The tibble has one row, with the SA_fo matrix in a list-column.
 #' @export
-fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, verbose=TRUE, return_full_matrix = FALSE, ...) {
+fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, verbose=TRUE, return_full_matrix = TRUE, ...) {
 
   obs_dims <- dim(obfield)
   obs_values <- as.numeric(obfield)

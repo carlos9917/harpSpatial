@@ -460,7 +460,7 @@ verify_spatial <- function(dttm,
           message("output dim : ", paste(dim(multiscore), collapse="x"))
           nrow <- dim(multiscore)[1]
           # interval of rows for this case in full score table
-	  browser()
+	  #browser()
           intv <- seq_len(nrow) + (case - 1) * nrow
           for (sn in score_function_subset[[sf]]) {
             message("-----> Calling score ", sn)
