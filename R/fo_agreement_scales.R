@@ -182,7 +182,7 @@ fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, verb
 
   if (return_full_matrix) {
     tibble::tibble(
-      SA_fo               = list(SA_fo),
+      SA_fo               = summary_stats$SA_fo,
       mean_agreescale     = summary_stats$mean_agreescale,
       min_agreescale      = summary_stats$min_agreescale,
       max_agreescale      = summary_stats$max_agreescale,
