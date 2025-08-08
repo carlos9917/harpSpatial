@@ -134,9 +134,11 @@ agreement_scale_map <- function(f1, f2, alpha = 0.5, S_lim = 80L, verbose = TRUE
 
 #' Calculate agreement scales for a forecast and observation field.
 #'
+#'
 #' This function serves as the main entry point for calculating the
 #' forecast-observation agreement scales (SA_fo) based on the method by
-#' Dey et al. (2016).
+#' Dey et al. (2016). It returns summary statistics and can optionally generate
+#' a plot of the agreement scales.
 #'
 #' @param fc_field A numeric matrix representing the forecast field.
 #' @param obs_field A numeric matrix representing the observation field,
@@ -144,11 +146,14 @@ agreement_scale_map <- function(f1, f2, alpha = 0.5, S_lim = 80L, verbose = TRUE
 #' @param alpha A parameter for the agreement criterion. Default is 0.5.
 #' @param S_lim An integer for the maximum neighbourhood half-width. Default is 80.
 #' @param verbose A boolean to control progress messages. Default is TRUE.
+#' @param output_image A file path to save the output plot. If NULL (default),
+#'   no plot is generated. The plot is a 4-panel figure showing observations,
+#'   forecast, the agreement scale map, and a histogram of agreement scales.
 #'
-#' @return A tibble with the agreement scale map (SA_fo) and its summary statistics.
-#'   The tibble has one row, with the SA_fo matrix in a list-column.
+#' @return A tibble with summary statistics of the agreement scale map (SA_fo),
+#'   including mean, min, max, and standard deviation.
 #' @export
-fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, verbose=TRUE, return_full_matrix = FALSE, ...) {
+fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, verbose = TRUE, output_image = NULL, ...) {
 
   obs_dims <- dim(obfield)
   obs_values <- as.numeric(obfield)
@@ -173,28 +178,82 @@ fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, verb
     verbose = verbose
   )
 
-  summary_stats <- list(
+  # Generate plot if an output path is provided
+  if (!is.null(output_image)) {
+    if (verbose) {
+      cat(sprintf("Generating agreement scale plot: %s\n", output_image))
+    }
+
+    # Define color scale similar to Dey et al. (2016)
+    paper_colors <- c(
+      "#7B162B", "#C32F2F", "#E94B2A", "#F97B3B",
+      "#FDBF5B", "#FEE89A", "#FEF6C7", "#FFFFE5"
+    )
+
+    png(output_image, width = 1200, height = 900, res = 150)
+
+    layout_matrix <- matrix(c(1, 2, 3, 4), nrow = 2, byrow = TRUE)
+    layout(layout_matrix, widths = c(4, 4), heights = c(4, 4))
+
+    # Plot 1: Observations
+    par(mar = c(4, 4, 3, 2))
+    image(obs_matrix, col = viridis::viridis(100), main = "Observations", useRaster = TRUE)
+
+    # Plot 2: Forecast
+    par(mar = c(4, 4, 3, 2))
+    image(fc_matrix, col = viridis::viridis(100), main = "Forecast", useRaster = TRUE)
+
+    # Plot 3: Agreement Scales with color bar
+    par(mar = c(4, 4, 3, 2))
+    image(SA_fo, col = paper_colors, main = "Agreement Scales SA(fo)", useRaster = TRUE)
+    
+    # Add colorbar using fields::image.plot
+    par(usr = c(0, 1, 0, 1))
+    fields::image.plot(
+      legend.only = TRUE,
+      zlim = range(SA_fo, na.rm = TRUE),
+      col = paper_colors,
+      legend.lab = "Agreement Scale (grid points)",
+      horizontal = TRUE,
+      legend.width = 1.2,
+      legend.shrink = 0.7,
+      legend.mar = 3.1,
+      axis.args = list(
+        at = pretty(range(SA_fo, na.rm = TRUE), n = 5),
+        labels = pretty(range(SA_fo, na.rm = TRUE), n = 5),
+        cex.axis = 0.9,
+        mgp = c(1.5, 0.5, 0)
+      ),
+      legend.args = list(
+        text = "Agreement Scale (grid points)",
+        side = 1,
+        line = 2,
+        cex = 1.1
+      ),
+      add = TRUE
+    )
+
+    # Plot 4: Histogram
+    par(mar = c(4, 4, 3, 2))
+    hist(SA_fo, breaks = 50, col = "lightblue",
+         main = "Agreement Scales Distribution",
+         xlab = "Agreement Scale (grid points)",
+         ylab = "Frequency")
+    abline(v = mean(SA_fo, na.rm = TRUE), col = "red", lwd = 2, lty = 2)
+    legend("topright", "Mean", col = "red", lty = 2, lwd = 2)
+
+    dev.off()
+    if (verbose) {
+      cat("Plot saved successfully.\n")
+    }
+  }
+
+  # Return summary statistics
+  tibble::tibble(
     mean_agreescale = mean(SA_fo, na.rm = TRUE),
     min_agreescale  = min(SA_fo, na.rm = TRUE),
     max_agreescale  = max(SA_fo, na.rm = TRUE),
     sd_agreescale   = sd(SA_fo, na.rm = TRUE)
   )
-
-  if (return_full_matrix) {
-    tibble::tibble(
-      SA_fo               = summary_stats$SA_fo,
-      mean_agreescale     = summary_stats$mean_agreescale,
-      min_agreescale      = summary_stats$min_agreescale,
-      max_agreescale      = summary_stats$max_agreescale,
-      sd_agreescale       = summary_stats$sd_agreescale
-    )
-  } else {
-    tibble::tibble(
-      #SA_fo               = summary_stats$mean_agreescale,
-      mean_agreescale     = summary_stats$mean_agreescale,
-      min_agreescale      = summary_stats$min_agreescale,
-      max_agreescale      = summary_stats$max_agreescale,
-      sd_agreescale       = summary_stats$sd_agreescale
-    )
-  }
 }
+

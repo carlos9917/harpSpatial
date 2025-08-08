@@ -26,6 +26,8 @@ Imports:
     meteogrid (>= 3.8.4),
     tibble,
     lubridate,
-    readr
+    readr,
+    viridis,
+    fields
 LinkingTo: Rcpp, harpCore
 RoxygenNote: 7.3.1
