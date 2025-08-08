@@ -148,7 +148,7 @@ agreement_scale_map <- function(f1, f2, alpha = 0.5, S_lim = 80L, verbose = TRUE
 #' @return A tibble with the agreement scale map (SA_fo) and its summary statistics.
 #'   The tibble has one row, with the SA_fo matrix in a list-column.
 #' @export
-fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, verbose=TRUE, return_full_matrix = TRUE, ...) {
+fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, verbose=TRUE, return_full_matrix = FALSE, ...) {
 
   obs_dims <- dim(obfield)
   obs_values <- as.numeric(obfield)
@@ -174,7 +174,6 @@ fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, verb
   )
 
   summary_stats <- list(
-    SA_fo           = SA_fo,
     mean_agreescale = mean(SA_fo, na.rm = TRUE),
     min_agreescale  = min(SA_fo, na.rm = TRUE),
     max_agreescale  = max(SA_fo, na.rm = TRUE),
@@ -191,7 +190,7 @@ fo_agreement_scales <- function(fcfield, obfield, alpha = 0.5, S_lim = 80L, verb
     )
   } else {
     tibble::tibble(
-      SA_fo               = summary_stats$mean_agreescale,
+      #SA_fo               = summary_stats$mean_agreescale,
       mean_agreescale     = summary_stats$mean_agreescale,
       min_agreescale      = summary_stats$min_agreescale,
       max_agreescale      = summary_stats$max_agreescale,
