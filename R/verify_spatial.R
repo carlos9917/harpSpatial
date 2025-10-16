@@ -81,11 +81,19 @@
 #'   this directory.
 #' @param sqlite_file Name of SQLite file.
 #' @param return_data If TRUE, the result is returned as a list of tables.
+#' @param return_fields If TRUE, the observation and forecast fields are returned (only for one case)
 #' @param ... Not used at thispoint (more info to be added).
 #'
 #' @return A list containting tibbles for all scores.
 #' @export
-
+#'
+#' @importFrom harpIO read_grid generate_filenames parse_harp_parameter
+#' @importFrom harpCore seq_dttm unixtime_to_dttm as_unixtime
+#' @importFrom meteogrid regrid.init regrid
+#' @importFrom tibble tibble
+#' @importFrom readr parse_number
+#' @importFrom dplyr %>%
+#
 verify_spatial <- function(dttm,
                            start_date=NULL, end_date=NULL, by=NULL,
                            parameter,
@@ -452,6 +460,7 @@ verify_spatial <- function(dttm,
           message("output dim : ", paste(dim(multiscore), collapse="x"))
           nrow <- dim(multiscore)[1]
           # interval of rows for this case in full score table
+	  #browser()
           intv <- seq_len(nrow) + (case - 1) * nrow
           for (sn in score_function_subset[[sf]]) {
             message("-----> Calling score ", sn)

@@ -41,8 +41,8 @@ Should be in the units that are also used in fc_file_template.}
 
 \item{lt_unit}{The unit used for lead_time. Can be "h" (hours), "m" (minutes), "s" (seconds)}
 
-\item{stations}{The IDs of the stations to read from the files. By default
-this is full list from harpCore::station_list, the stations outside the domain interior will be excluded.}
+\item{stations}{The list of the station  with the same format as harpCore::station_list.
+the stations outside the domain interior will be excluded.}
 
 \item{padding_i}{Number of grid points to define the domain interior in the x direction.}
 
@@ -52,7 +52,6 @@ this is full list from harpCore::station_list, the stations outside the domain i
  me:    Multi Event
  pragm: Pragramtic
  csrr:  Conditional Square Root RPS
- td:    Theate Detection (not published yet)
  bias:  Bias from area mean.
  mse:   Mean Squared Error from area mean.
  mae:   Mean Absolute Error from area mean.
